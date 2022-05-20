@@ -63,3 +63,15 @@ Query: {
     }
 }
 ```
+
+## 7. Resolver arguments
+
+Resolver 함수에는 parent(root or source), args, context, info 의 네 가지 인수가 순서대로 전달됩니다.
+
+```js
+User: {
+  fullName: (parent, args, context, info) => {
+    return "hello";
+  },
+},
+```

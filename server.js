@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from "apollo-server";
 
-const tweets = [
+let tweets = [
   {
     id: "1",
     text: "first",
@@ -11,20 +11,36 @@ const tweets = [
   },
 ];
 
+let users = [
+  {
+    id: "1",
+    firstname: "nico",
+    lastname: "ras",
+  },
+  {
+    id: "2",
+    firstname: "lee",
+    lastname: "sky",
+  },
+];
+
 // schema definition language(SDL)
 const typeDefs = gql`
   type User {
     id: ID!
-    username: String!
     firstname: String!
-    lastname: String
+    lastname: String!
+    fullname: String!
   }
+
   type Tweet {
     id: ID!
     text: String!
     author: User
   }
+
   type Query {
+    allUsers: [User!]!
     allTweets: [Tweet!]!
     tweet(id: ID!): Tweet
   }
@@ -40,8 +56,32 @@ const resolvers = {
     allTweets() {
       return tweets;
     },
+    allUsers() {
+      return users;
+    },
     tweet(root, args) {
       return tweets.find((t) => t.id === args.id);
+    },
+  },
+  Mutation: {
+    postTweet(_, { text, userId }) {
+      const newTweet = {
+        id: tweets.length + 1,
+        text,
+      };
+      tweets.push(newTweet);
+      return newTweet;
+    },
+    deleteTweet(_, { id }) {
+      const tweet = tweets.find((t) => t.id === id);
+      if (!tweet) return false;
+      tweets = tweets.filter((t) => t.id !== id);
+      return true;
+    },
+  },
+  User: {
+    fullname({ firstname, lastname }) {
+      return `${firstname} ${lastname}`;
     },
   },
 };
