@@ -75,3 +75,31 @@ User: {
   },
 },
 ```
+
+## 8. Docstring
+
+type, field 또는 argument에 대한 설명을 제공합니다. 독스트링은 Apollo Studio Explorer를 포함한 많은 일반적인 GraphQL 도구에 자동으로 나타납니다.
+
+```
+"""
+User에 대해 설명
+"""
+type User {
+  """
+  firstName에 대해 설명
+  """
+  firstName: String!
+
+  age(
+  """
+  반드시 숫자여야 합니다.
+  """
+  arg: Int
+  )
+}
+```
+
+https://www.apollographql.com/docs/resources/graphql-glossary/#docstring
+
+Altair GraphQL Client
+Altair GraphQL Client는 GraphQL queries 및implementations을 디버그할 때 사용할 수 있습니다. (추가적으로 파일 업로드 기능을 제공)
